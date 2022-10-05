@@ -5,9 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.siamsquared.news2.R
+import com.siamsquared.news2.databinding.FragmentHomeBinding
 import com.siamsquared.news2.ui.activity.MainActivity
+import com.siamsquared.news2.ui.adapter.NewsAdapter
 import com.siamsquared.news2.ui.viewModel.NewsViewModel
+import com.siamsquared.news2.util.Resource
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -17,6 +22,9 @@ class HomeFragment : Fragment() {
     private var param2: String? = null
 
     lateinit var viewModel: NewsViewModel
+    lateinit var newsAdapter: NewsAdapter
+
+    private lateinit var binding : FragmentHomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,12 +39,44 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        binding = FragmentHomeBinding.inflate(layoutInflater)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = (activity as MainActivity).viewModel
+        setupRecycleView()
+
+        viewModel.breakingNews.observe(viewLifecycleOwner, Observer { response ->
+            when(response){
+                is Resource.Success -> {
+                    hideProgressBar()
+                    response.data?.let { newsResponse ->
+                        newsAdapter.differ.submitList(newsResponse.articles)
+                    }
+                }
+                is Resource.Error -> {
+                    hideProgressBar()
+                    response.message?.let { message ->
+                        //show message
+                    }
+                }
+                else -> {}
+            }
+        })
+    }
+
+    private fun hideProgressBar() {
+        binding.paginationProgressBar.visibility = View.INVISIBLE
+    }
+
+    private fun setupRecycleView() {
+        newsAdapter = NewsAdapter()
+        binding.rvBreakingNews.apply {
+            adapter = newsAdapter
+            layoutManager = LinearLayoutManager(activity)
+        }
     }
 
     companion object {
