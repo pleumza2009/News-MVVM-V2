@@ -8,17 +8,17 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.siamsquared.news2.ui.fragment.HomeFragment"
+        android:name="com.thanakorn.news2.ui.fragment.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.siamsquared.news2.ui.fragment.FavoriteFragment"
+        android:name="com.thanakorn.news2.ui.fragment.FavoriteFragment"
         android:label="fragment_favorite"
         tools:layout="@layout/fragment_favorite" />
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.siamsquared.news2.ui.fragment.SearchNewsFragment"
+        android:name="com.thanakorn.news2.ui.fragment.SearchNewsFragment"
         android:label="SearchNewsFragment"
         tools:layout="@layout/fragment_search_news"/>
 </navigation>

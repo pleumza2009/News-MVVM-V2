@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace 'com.siamsquared.news2'
+    namespace 'com.thanakorn.news2'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.siamsquared.news2"
+        applicationId "com.thanakorn.news2"
         minSdk 24
         targetSdk 33
         versionCode 1
