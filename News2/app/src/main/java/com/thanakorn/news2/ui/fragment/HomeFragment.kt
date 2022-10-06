@@ -67,6 +67,12 @@ class HomeFragment : Fragment() {
                 else -> {}
             }
         })
+
+        newsAdapter.setOnItemClickListener {
+            val bundle =  Bundle().apply {
+                putSerializable("article",it)
+            }
+        }
     }
 
     private fun hideProgressBar() {
