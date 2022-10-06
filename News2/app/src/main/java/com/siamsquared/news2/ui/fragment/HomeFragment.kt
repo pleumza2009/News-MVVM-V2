@@ -62,6 +62,9 @@ class HomeFragment : Fragment() {
                         //show message
                     }
                 }
+                is Resource.Loading -> {
+                    showProgressBar()
+                }
                 else -> {}
             }
         })
@@ -69,6 +72,10 @@ class HomeFragment : Fragment() {
 
     private fun hideProgressBar() {
         binding.paginationProgressBar.visibility = View.INVISIBLE
+    }
+
+    private fun showProgressBar() {
+        binding.paginationProgressBar.visibility = View.VISIBLE
     }
 
     private fun setupRecycleView() {
