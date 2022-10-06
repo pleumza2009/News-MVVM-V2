@@ -33,7 +33,7 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
        val article = differ.currentList[position]
         holder.apply {
-            Glide.with(itemView).load(article.url).into(binding.ivArticleImage)
+            Glide.with(itemView).load(article.urlToImage).into(binding.ivArticleImage)
             binding.tvSource.text = article.source.name
             binding.tvTitle.text = article.title
             binding.tvDescription.text = article.description
