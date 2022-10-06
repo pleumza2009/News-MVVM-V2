@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.thanakorn.news2.R
 import com.thanakorn.news2.databinding.FragmentHomeBinding
 import com.thanakorn.news2.ui.activity.MainActivity
 import com.thanakorn.news2.ui.adapter.NewsAdapter
@@ -72,6 +74,7 @@ class HomeFragment : Fragment() {
             val bundle =  Bundle().apply {
                 putSerializable("article",it)
             }
+            findNavController().navigate(R.id.action_homeFragment_to_articelFragment,bundle)
         }
     }
 
