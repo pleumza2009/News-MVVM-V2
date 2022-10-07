@@ -3,6 +3,7 @@ package com.thanakorn.news2.ui.viewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.thanakorn.news2.model.Article
 import com.thanakorn.news2.model.NewsResponse
 import com.thanakorn.news2.repository.NewsRepository
 import com.thanakorn.news2.util.Resource
@@ -54,4 +55,14 @@ class NewsViewModel (val newsRepository: NewsRepository) : ViewModel() {
             return  Resource.Error(response.message())
         }
     }
+
+    fun saveNewsArticle(article: Article) = viewModelScope.launch {
+        newsRepository.upsert(article)
+    }
+
+    fun deleteNewsArticle(article: Article) = viewModelScope.launch {
+        newsRepository.deleteArticle(article)
+    }
+
+    fun getFavoriteNews() = newsRepository.getFavoriteNews()
 }
