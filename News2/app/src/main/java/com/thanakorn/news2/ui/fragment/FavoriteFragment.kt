@@ -58,7 +58,7 @@ class FavoriteFragment : Fragment() {
             val bundle =  Bundle().apply {
                 putSerializable("article",it)
             }
-            findNavController().navigate(R.id.action_homeFragment_to_articelFragment,bundle)
+            findNavController().navigate(R.id.action_favoriteFragment_to_articelFragment,bundle)
         }
 
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
