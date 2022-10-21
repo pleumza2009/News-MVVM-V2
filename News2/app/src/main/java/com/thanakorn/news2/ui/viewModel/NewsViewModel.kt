@@ -2,7 +2,9 @@ package com.thanakorn.news2.ui.viewModel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.thanakorn.news2.model.Article
 import com.thanakorn.news2.model.NewsResponse
 import com.thanakorn.news2.repository.NewsRepository
@@ -65,4 +67,16 @@ class NewsViewModel (val newsRepository: NewsRepository) : ViewModel() {
     }
 
     fun getFavoriteNews() = newsRepository.getFavoriteNews()
+
+
+    //PAGING 3
+    private val currentQuery = MutableLiveData(DEFAULT_QUERY)
+
+    val articles = currentQuery.switchMap { countryCode ->
+        newsRepository.getBreakingNewsPaging(countryCode).cachedIn(viewModelScope)
+    }
+
+    companion object {
+        private const val DEFAULT_QUERY = "us"
+    }
 }

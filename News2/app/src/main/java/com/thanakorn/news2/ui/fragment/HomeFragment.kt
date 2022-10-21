@@ -12,6 +12,7 @@ import com.thanakorn.news2.R
 import com.thanakorn.news2.databinding.FragmentHomeBinding
 import com.thanakorn.news2.ui.activity.MainActivity
 import com.thanakorn.news2.ui.adapter.NewsAdapter
+import com.thanakorn.news2.ui.adapter.NewsPagingAdapter
 import com.thanakorn.news2.ui.viewModel.NewsViewModel
 import com.thanakorn.news2.util.Resource
 
@@ -48,7 +49,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = (activity as MainActivity).viewModel
         setupRecycleView()
-
+/*
         viewModel.breakingNews.observe(viewLifecycleOwner, Observer { response ->
             when(response){
                 is Resource.Success -> {
@@ -76,6 +77,19 @@ class HomeFragment : Fragment() {
             }
             findNavController().navigate(R.id.action_homeFragment_to_articelFragment,bundle)
         }
+
+ */
+
+        val adapter = NewsPagingAdapter()
+
+        binding.apply {
+            rvBreakingNews.setHasFixedSize(true)
+            rvBreakingNews.adapter = adapter
+        }
+
+        viewModel.articles.observe(viewLifecycleOwner) {
+            adapter.submitData(viewLifecycleOwner.lifecycle, it)
+        }
     }
 
     private fun hideProgressBar() {
@@ -85,6 +99,7 @@ class HomeFragment : Fragment() {
     private fun showProgressBar() {
         binding.paginationProgressBar.visibility = View.VISIBLE
     }
+
 
     private fun setupRecycleView() {
         newsAdapter = NewsAdapter()
