@@ -21,9 +21,12 @@ class NewsViewModel (val newsRepository: NewsRepository) : ViewModel() {
     val searchNews : MutableLiveData<Resource<NewsResponse>>  = MutableLiveData()
     val searchNewsPage = 1
 
+    /*
     init {
         getBreakingNews("us")
     }
+
+     */
 
 
     private fun getBreakingNews(countryCode: String) = viewModelScope.launch {

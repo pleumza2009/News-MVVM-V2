@@ -23,7 +23,7 @@ class PagingSource(
         val position = params.key ?: STARTING_PAGE_INDEX
 
         return try {
-            val response = RetrofitInstance.api.getNewsPaging(countryCode,params.loadSize)
+            val response = RetrofitInstance.api.getNewsPaging(countryCode,position,params.loadSize)
             val articles = response.articles
 
             LoadResult.Page(

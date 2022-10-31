@@ -18,7 +18,8 @@ interface NewsApi {
     @GET("v2/top-headlines")
     suspend fun getNewsPaging(
         @Query("country") countryCode: String = "us",
-        @Query("page") pageNumber: Int = 1,
+        @Query("page") pageNumber: Int,
+        @Query("pageSize") pageSize: Int,
         @Query("apiKey") apiKey: String = API_KEY
     ) : NewsResponse
 
