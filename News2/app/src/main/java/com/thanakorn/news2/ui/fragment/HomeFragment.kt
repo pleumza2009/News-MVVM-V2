@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.thanakorn.news2.R
 import com.thanakorn.news2.databinding.FragmentHomeBinding
+import com.thanakorn.news2.model.Article
 import com.thanakorn.news2.ui.activity.MainActivity
 import com.thanakorn.news2.ui.adapter.NewsAdapter
 import com.thanakorn.news2.ui.adapter.NewsPagingAdapter
@@ -19,7 +20,7 @@ import com.thanakorn.news2.util.Resource
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(),NewsPagingAdapter.OnItemClickListener {
     private var param1: String? = null
     private var param2: String? = null
 
@@ -80,7 +81,7 @@ class HomeFragment : Fragment() {
 
  */
 
-        val adapter = NewsPagingAdapter()
+        val adapter = NewsPagingAdapter(this)
 
         binding.apply {
             rvBreakingNews.setHasFixedSize(true)
@@ -90,6 +91,13 @@ class HomeFragment : Fragment() {
         viewModel.articles.observe(viewLifecycleOwner) {
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
+    }
+
+    override fun onItemClick(article: Article) {
+        val bundle =  Bundle().apply {
+            putSerializable("article",article)
+        }
+        findNavController().navigate(R.id.action_homeFragment_to_articelFragment,bundle)
     }
 
     private fun hideProgressBar() {

@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.thanakorn.news2.databinding.ItemArticleBinding
 import com.thanakorn.news2.model.Article
 
-class NewsPagingAdapter : PagingDataAdapter<Article, NewsPagingAdapter.ArticleViewHolder>(ARTICLE_COMPARATOR) {
+class NewsPagingAdapter(private val listener: OnItemClickListener) : PagingDataAdapter<Article, NewsPagingAdapter.ArticleViewHolder>(ARTICLE_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
         val binding = ItemArticleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -24,8 +24,21 @@ class NewsPagingAdapter : PagingDataAdapter<Article, NewsPagingAdapter.ArticleVi
         }
     }
 
-    class ArticleViewHolder(private val binding: ItemArticleBinding) :
+  inner  class ArticleViewHolder(private val binding: ItemArticleBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.root.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val item = getItem(position)
+                    if (item != null) {
+                        listener.onItemClick(item)
+                    }
+                }
+            }
+
+        }
 
         fun bind(article: Article) {
             binding.apply {
@@ -34,17 +47,13 @@ class NewsPagingAdapter : PagingDataAdapter<Article, NewsPagingAdapter.ArticleVi
                 binding.tvTitle.text = article.title
                 binding.tvDescription.text = article.description
                 binding.tvPublishedAt.text = article.publishedAt
-                binding.root.setOnClickListener {
-                    onItemClickListener?.let {it(article)}
-                }
             }
         }
 
-        private var onItemClickListener: ((Article) -> Unit)?  = null
+    }
 
-        fun setOnItemClickListener(listener: (Article)  -> Unit){
-            onItemClickListener = listener
-        }
+    interface OnItemClickListener {
+        fun onItemClick(article: Article)
     }
 
 
