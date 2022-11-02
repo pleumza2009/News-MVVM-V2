@@ -8,7 +8,16 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/category_tabs"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        app:tabBackground="@color/purple_500"
+        app:tabIndicatorColor="@color/teal_200"
+        app:tabIndicatorFullWidth="false"
+        app:tabIndicatorHeight="2dp"
+        app:tabMode="scrollable"
+        app:tabRippleColor="@null"
+        app:tabSelectedTextColor="@color/teal_200"
+        app:tabTextAppearance="@style/tab14"
+        app:tabTextColor="@color/white"/>
 
 
     <androidx.viewpager2.widget.ViewPager2

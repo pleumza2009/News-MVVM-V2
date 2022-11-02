@@ -8,14 +8,17 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.tabs.TabLayout
 import com.thanakorn.news2.R
 import com.thanakorn.news2.databinding.FragmentHomeBinding
 import com.thanakorn.news2.model.Article
 import com.thanakorn.news2.ui.activity.MainActivity
 import com.thanakorn.news2.ui.adapter.NewsAdapter
 import com.thanakorn.news2.ui.adapter.NewsPagingAdapter
+import com.thanakorn.news2.ui.adapter.ViewPagerAdapter
 import com.thanakorn.news2.ui.viewModel.NewsViewModel
 import com.thanakorn.news2.util.Resource
+import java.util.ArrayList
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -26,6 +29,7 @@ class HomeFragment : Fragment(),NewsPagingAdapter.OnItemClickListener {
 
     lateinit var viewModel: NewsViewModel
     lateinit var newsAdapter: NewsAdapter
+    lateinit var viewPagerAdapter: ViewPagerAdapter
 
     private lateinit var binding : FragmentHomeBinding
 
@@ -49,6 +53,7 @@ class HomeFragment : Fragment(),NewsPagingAdapter.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = (activity as MainActivity).viewModel
+        /*
         setupRecycleView()
 /*
         viewModel.breakingNews.observe(viewLifecycleOwner, Observer { response ->
@@ -91,6 +96,11 @@ class HomeFragment : Fragment(),NewsPagingAdapter.OnItemClickListener {
         viewModel.articles.observe(viewLifecycleOwner) {
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
+
+         */
+
+        setupViewPagerAndTabs()
+
     }
 
     override fun onItemClick(article: Article) {
@@ -109,12 +119,40 @@ class HomeFragment : Fragment(),NewsPagingAdapter.OnItemClickListener {
     }
 
 
-    private fun setupRecycleView() {
-        newsAdapter = NewsAdapter()
-        binding.rvBreakingNews.apply {
-            adapter = newsAdapter
-            layoutManager = LinearLayoutManager(activity)
+    private fun setupViewPagerAndTabs(){
+        val fragmentList: ArrayList<Fragment> = ArrayList()
+        fragmentList.add(CategoryFragment.newInstance("",""))
+        fragmentList.add(CategoryFragment.newInstance("",""))
+        viewPagerAdapter = ViewPagerAdapter(childFragmentManager, lifecycle, fragmentList)
+        binding.vpCategory.apply {
+            adapter  = viewPagerAdapter
+            isUserInputEnabled = false
         }
+
+        binding.categoryTabs.apply {
+            addTab(this.newTab().setText("business"))
+            addTab(this.newTab().setText("entertainment"))
+            addTab(this.newTab().setText("entertainment"))
+            addTab(this.newTab().setText("general"))
+            addTab(this.newTab().setText("health"))
+            addTab(this.newTab().setText("science"))
+            addTab(this.newTab().setText("sports"))
+            addTab(this.newTab().setText("technology"))
+
+
+            addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+                override fun onTabSelected(tab: TabLayout.Tab) {
+                    binding.vpCategory.currentItem = tab.position
+
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab) {}
+
+                override fun onTabReselected(tab: TabLayout.Tab?) {}
+            })
+        }
+
+
     }
 
     companion object {
